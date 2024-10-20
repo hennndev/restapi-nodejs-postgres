@@ -8,9 +8,11 @@ const getProducts = async(req, res) => {
                     p.price as price,
                     p.description as description,
                     p.createdAt as created_at,
-                    c.name as category
+                    c.name as category,
+                    b.name as brand
             FROM products AS p
             JOIN categories AS c ON p.categoryId = c.id
+            JOIN brands AS b ON p.brandId = b.id
             ORDER BY createdAt DESC 
         `
         const result = await pool.query(query);
@@ -34,9 +36,11 @@ const getProduct = async(req, res) => {
                     p.price as price,
                     p.description as description,
                     p.createdAt as created_at,
-                    c.name as category
+                    c.name as category,
+                    b.name as brand
             FROM products as p
             JOIN categories as c ON p.categoryId = c.id
+            JOIN brands as b ON b.brandId = b.id
             WHERE p.id = ${productId}
         `
         const result = await pool.query(query)
