@@ -1,0 +1,42 @@
+services:
+  rest-api:
+    container_name: restapi-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env.production
+    depends_on:
+      - db
+    ports:
+      - 4000:4000
+    networks:
+      restapi-network:
+        ipv4_address: 192.168.100.29
+
+  db:
+    container_name: db-app
+    image: postgres:17-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=test
+      - POSTGRES_PASSWORD=test
+    networks:
+      restapi-network:
+        ipv4_address: 192.168.100.30
+    cpus: "0.5"
+    mem_limit: 1gb
+  
+networks:
+  restapi-network:
+    driver: bridge
+    ipam: 
+      config:
+        - subnet: 192.168.100.0/24
+          gateway: 192.168.100.1
