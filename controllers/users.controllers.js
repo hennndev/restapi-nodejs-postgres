@@ -4,7 +4,8 @@ const getUsers = async(req, res) => {
     try {
         const result = await pool.query("SELECT * FROM users")
         res.status(200).json({
-            message: "Success get users"
+            message: "Success get users",
+            data: result.rows
         })
     } catch (error) {
         res.status(400).json({

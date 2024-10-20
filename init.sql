@@ -1,24 +1,27 @@
+CREATE TABLE IF NOT EXISTS categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
-    price NUMERIC,
-    categoryId NUMERIC,
-    description TEXT,
+    name VARCHAR(255) NOT NULL,
+    price NUMERIC NOT NULL CHECK (price >= 0),
+    categoryId INT NOT NULL,
+    description TEXT NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(category_id) REFERENCES categories(id) 
+    FOREIGN KEY (categoryId) REFERENCES categories(id) 
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE IF EXISTS categories (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50),
-)
-
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
-    email VARCHAR(50),
-    password VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+
