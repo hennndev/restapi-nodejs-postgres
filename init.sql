@@ -2,10 +2,18 @@ CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     price NUMERIC,
-    category VARCHAR(50),
+    categoryId NUMERIC,
     description TEXT,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(category_id) REFERENCES categories(id) 
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
+
+CREATE TABLE IF EXISTS categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+)
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,

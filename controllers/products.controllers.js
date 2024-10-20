@@ -2,7 +2,18 @@ const pool = require("../config/db/db")
 
 const getProducts = async(req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM products");
+        const query = `
+            SELECT  p.id AS id,
+                    p.name as name,
+                    p.price as price,
+                    p.description as description,
+                    p.createdAt as createdAt,
+                    c.name as category
+            FROM products as p
+            JOIN categories AS c ON p.categoryId = c.id
+            ORDER BY createdAt DESC 
+        `
+        const result = await pool.query(query);
         res.status(200).json({
             message: "Success get products",
             data: result.rows
